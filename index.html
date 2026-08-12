@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Protocolo de Estudos — Câmara Municipal de Rio Verde</title>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Edital Rio Verde">
+<meta name="theme-color" content="#1B4332">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F0E6;
+    --paper-line: rgba(27,67,50,0.08);
+    --ink:#1c2a22;
+    --green:#1B4332;
+    --green-dark:#0e2419;
+    --gold:#B8892B;
+    --gold-light:#E4C687;
+    --red-stamp:#8C2F27;
+    --muted:#6b7369;
+    --spec-color:#3B4C7C;
+    --spec-color-light:#EEF1F8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      repeating-linear-gradient(var(--paper-line) 0 1px, transparent 1px 32px),
+      var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    padding-bottom:80px;
+  }
+
+  /* ===== Header / cabeçalho tipo protocolo ===== */
+  header{
+    background:var(--green);
+    color:var(--paper);
+    padding:28px 20px 22px;
+    position:relative;
+    border-bottom:6px solid var(--gold);
+    overflow:hidden;
+  }
+  header::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 6px);
+    pointer-events:none;
+  }
+  .eyebrow{display:none;}
+  h1{
+    font-family:'PT Serif', serif;
+    font-weight:700;
+    font-size:clamp(22px,5vw,32px);
+    margin:0 0 6px;
+    max-width:900px;
+    margin-left:auto; margin-right:auto;
+    text-align:center;
+  }
+  .subtitle{
+    text-align:center;
+    font-size:13px;
+    color:var(--gold-light);
+    max-width:900px;
+    margin:0 auto;
+  }
+
+  /* barra de progresso geral */
+  .progress-wrap{
+    max-width:900px;
+    margin:18px auto 0;
+    background:rgba(0,0,0,0.25);
+    border:1px solid rgba(228,198,135,0.4);
+    border-radius:3px;
+    height:22px;
+    position:relative;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    width:0%;
+    transition:width .4s ease;
+  }
+  .progress-label{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.06em;
+    color:var(--green-dark);
+    font-weight:600;
+    mix-blend-mode:normal;
+  }
+
+  /* ===== Alternância Conteúdo / Histórico ===== */
+  .view-switch{
+    max-width:960px;
+    margin:20px auto 0;
+    padding:0 16px;
+    display:flex;
+  }
+  .view-btn{
+    flex:1;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:600;
+    font-size:13.5px;
+    padding:11px 10px;
+    background:#fff;
+    border:1px solid rgba(27,67,50,0.3);
+    color:var(--green);
+    opacity:.7;
+    cursor:pointer;
+  }
+  .view-btn:first-child{border-radius:6px 0 0 6px; border-right:none;}
+  .view-btn:last-child{border-radius:0 6px 6px 0;}
+  .view-btn.active{
+    opacity:1;
+    background:var(--green);
+    color:var(--paper);
+    border-color:var(--green);
+  }
+
+  .dash-main{
+    max-width:960px;
+    margin:0 auto;
+    padding:0 16px;
+  }
+
+  /* ===== Tabs ===== */
+  nav.tabs{
+    max-width:960px;
+    margin:22px auto 0;
+    padding:0 16px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .tab-btn{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:.01em;
+    background:#fff;
+    border:1px solid rgba(27,67,50,0.25);
+    border-bottom:none;
+    color:var(--green);
+    padding:9px 14px 8px;
+    border-radius:6px 6px 0 0;
+    cursor:pointer;
+    position:relative;
+    top:1px;
+    opacity:.65;
+    transition:opacity .15s, background .15s;
+  }
+  .tab-btn .count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    color:var(--muted);
+    margin-left:5px;
+  }
+  .tab-btn.active{
+    opacity:1;
+    background:var(--paper);
+    border-color:var(--green);
+    box-shadow:0 -2px 0 var(--gold) inset;
+  }
+  .tab-btn.law{
+    color:var(--red-stamp);
+  }
+  .tab-btn.law.active{
+    box-shadow:0 -2px 0 var(--red-stamp) inset;
+  }
+  .group-tab-btn[data-group="Conhecimentos Específicos"]{
+    color:var(--spec-color);
+  }
+  .group-tab-btn[data-group="Conhecimentos Específicos"].active{
+    border-color:var(--spec-color);
+    box-shadow:0 -2px 0 var(--spec-color) inset;
+  }
+
+  /* ===== Content panel ===== */
+  main{
+    max-width:960px;
+    margin:0 auto;
+    padding:0 16px;
+  }
+  .panel{
+    display:none;
+    background:#fffdf8;
+    border:1px solid rgba(27,67,50,0.25);
+    border-radius:0 6px 6px 6px;
+    padding:26px 24px 22px;
+    box-shadow:0 2px 10px rgba(27,67,50,0.06);
+  }
+  .panel.active{display:block;}
+
+  .panel.panel-spec{
+    border-color:rgba(59,76,124,0.3);
+  }
+  .panel.panel-spec .panel-head{
+    border-bottom-color:var(--spec-color);
+  }
+  .panel.panel-spec .panel-head h2{
+    color:var(--spec-color);
+  }
+  .panel.panel-spec .bubble{
+    border-color:var(--spec-color);
+  }
+  .panel.panel-spec li.done .bubble{
+    background:var(--spec-color);
+    border-color:var(--spec-color);
+  }
+
+  .panel-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:8px;
+    border-bottom:2px solid var(--green);
+    padding-bottom:10px;
+    margin-bottom:16px;
+  }
+  .panel-head h2{
+    font-family:'PT Serif', serif;
+    font-size:20px;
+    margin:0;
+    color:var(--green-dark);
+  }
+  .panel-count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--muted);
+  }
+
+  ul.topics{
+    list-style:none;
+    margin:0; padding:0;
+  }
+  ul.topics li{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:10px 4px;
+    border-bottom:1px dashed rgba(27,67,50,0.15);
+    cursor:pointer;
+  }
+  ul.topics li:last-child{border-bottom:none;}
+  ul.topics li:hover{background:rgba(27,67,50,0.035);}
+
+  .bubble{
+    flex:0 0 auto;
+    width:22px; height:22px;
+    border-radius:50%;
+    border:2px solid var(--green);
+    margin-top:1px;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .15s, border-color .15s;
+  }
+  li.done .bubble{
+    background:var(--green);
+    border-color:var(--green);
+  }
+  .bubble svg{
+    width:12px; height:12px;
+    opacity:0;
+    transition:opacity .1s;
+  }
+  li.done .bubble svg{opacity:1;}
+
+  .topic-text{
+    font-size:14.5px;
+    line-height:1.45;
+    color:var(--ink);
+  }
+  li.done .topic-text{
+    color:var(--muted);
+    text-decoration:line-through;
+    text-decoration-color:rgba(107,115,105,0.5);
+  }
+
+  /* law items get a slightly different accent */
+  #panel-leis .bubble, #panel-leis-esp .bubble{border-color:var(--red-stamp);}
+  #panel-leis li.done .bubble, #panel-leis-esp li.done .bubble{background:var(--red-stamp); border-color:var(--red-stamp);}
+
+  .lei-code{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--red-stamp);
+    display:block;
+    margin-bottom:2px;
+  }
+
+  .filter-tag{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--gold);
+    margin-top:3px;
+    line-height:1.35;
+  }
+  .filter-tag.warn{
+    color:#946b1f;
+    font-style:italic;
+    opacity:.85;
+  }
+  #panel-leis .filter-tag, #panel-leisesp .filter-tag{
+    color:#a05c50;
+  }
+  .materia-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--muted);
+    font-weight:400;
+    display:block;
+    margin-top:2px;
+  }
+  .extra-badge{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9.5px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--gold);
+    border:1px solid var(--gold);
+    border-radius:3px;
+    padding:1px 5px;
+    margin-left:6px;
+    vertical-align:middle;
+  }
+
+  .review-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:6px;
+  }
+  .review-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--green);
+    background:rgba(27,67,50,0.06);
+    border:1px solid rgba(27,67,50,0.3);
+    border-radius:20px;
+    padding:3px 10px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .review-btn:hover{background:rgba(27,67,50,0.14);}
+  .review-btn:active{transform:scale(0.97);}
+  .review-info{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color:var(--muted);
+  }
+  #panel-leis .review-btn, #panel-leisesp .review-btn{
+    color:var(--red-stamp);
+    border-color:rgba(140,47,39,0.35);
+    background:rgba(140,47,39,0.05);
+  }
+
+  /* Stamp when a panel is 100% complete */
+  .stamp{
+    position:absolute;
+    top:18px; right:18px;
+    border:3px solid var(--red-stamp);
+    color:var(--red-stamp);
+    border-radius:8px;
+    padding:6px 10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:.08em;
+    transform:rotate(-8deg);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .3s, transform .3s;
+    background:rgba(255,255,255,0.6);
+  }
+  .panel{position:relative;}
+  .panel.complete .stamp{
+    opacity:.9;
+    transform:rotate(-8deg) scale(1);
+  }
+
+  footer{
+    max-width:960px;
+    margin:26px auto 0;
+    padding:0 16px;
+    font-size:11.5px;
+    color:var(--muted);
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  .reset-btn{
+    display:block;
+    margin:14px auto 0;
+    background:none;
+    border:1px solid var(--muted);
+    color:var(--muted);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    padding:6px 12px;
+    border-radius:4px;
+    cursor:pointer;
+  }
+  .reset-btn:hover{border-color:var(--red-stamp); color:var(--red-stamp);}
+
+  .io-actions{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin:14px auto 0;
+    flex-wrap:wrap;
+  }
+  .io-btn{
+    background:none;
+    border:1px solid var(--green);
+    color:var(--green);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    padding:6px 12px;
+    border-radius:4px;
+    cursor:pointer;
+  }
+  .io-btn:hover{background:rgba(27,67,50,0.08);}
+
+  /* ===== Registro de tempo por matéria (como um todo) ===== */
+  .section-time-row{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:0 0 18px;
+    padding:12px 14px;
+    background:rgba(184,137,43,0.06);
+    border:1px dashed rgba(184,137,43,0.35);
+    border-radius:6px;
+  }
+  .section-time-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--muted);
+    margin-right:2px;
+  }
+  .time-row{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:6px;
+  }
+  .time-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--gold);
+    background:rgba(184,137,43,0.08);
+    border:1px solid rgba(184,137,43,0.4);
+    border-radius:20px;
+    padding:3px 10px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .time-btn:hover{background:rgba(184,137,43,0.18);}
+  .time-btn:active{transform:scale(0.97);}
+  .time-info{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    font-weight:700;
+    color:#fff;
+    background:var(--gold);
+    padding:3px 10px;
+    border-radius:12px;
+    letter-spacing:.01em;
+    white-space:nowrap;
+  }
+  .time-form{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .time-input{
+    width:64px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    padding:4px 6px;
+    border:1px solid rgba(27,67,50,0.35);
+    border-radius:4px;
+    background:#fff;
+    color:var(--ink);
+  }
+  .time-quick{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color:var(--green);
+    background:#fff;
+    border:1px solid rgba(27,67,50,0.25);
+    border-radius:14px;
+    padding:2px 8px;
+    cursor:pointer;
+  }
+  .time-quick:hover{background:rgba(27,67,50,0.08);}
+  .time-confirm{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    font-weight:600;
+    color:#fff;
+    background:var(--green);
+    border:none;
+    border-radius:14px;
+    padding:4px 12px;
+    cursor:pointer;
+  }
+  .time-confirm:hover{background:var(--green-dark);}
+  .time-cancel{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--muted);
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-decoration:underline;
+  }
+
+  /* ===== Painel de histórico / dashboard ===== */
+  .dash-stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(140px,1fr));
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .stat-card{
+    background:rgba(27,67,50,0.04);
+    border:1px solid rgba(27,67,50,0.15);
+    border-radius:6px;
+    padding:14px 12px;
+    text-align:center;
+  }
+  .stat-value{
+    font-family:'PT Serif', serif;
+    font-weight:700;
+    font-size:22px;
+    color:var(--green-dark);
+  }
+  .stat-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    margin-top:2px;
+  }
+
+  .dash-section-title{
+    font-family:'PT Serif', serif;
+    font-size:15px;
+    font-weight:700;
+    color:var(--green-dark);
+    margin:22px 0 10px;
+    padding-bottom:6px;
+    border-bottom:1px dashed rgba(27,67,50,0.2);
+  }
+  .dash-section-title:first-of-type{margin-top:0;}
+  .dash-empty{
+    font-size:12.5px;
+    color:var(--muted);
+    font-style:italic;
+  }
+
+  /* barras horizontais (por matéria) */
+  .hbar-chart{display:flex; flex-direction:column; gap:9px;}
+  .hbar-row{display:flex; align-items:center; gap:10px;}
+  .hbar-label{
+    flex:0 0 150px;
+    font-size:12px;
+    color:var(--ink);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .hbar-track{
+    flex:1;
+    height:14px;
+    background:rgba(27,67,50,0.08);
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .hbar-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--green) 0%, var(--gold) 100%);
+    border-radius:3px;
+    transition:width .4s ease;
+  }
+  .hbar-value{
+    flex:0 0 52px;
+    text-align:right;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--muted);
+  }
+
+  /* barras verticais (por dia) */
+  .vbar-chart{
+    display:flex;
+    align-items:flex-end;
+    gap:10px;
+    height:150px;
+    padding-top:8px;
+    overflow-x:auto;
+  }
+  .vbar-col{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-end;
+    height:100%;
+    flex:0 0 auto;
+    width:34px;
+  }
+  .vbar-value{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9.5px;
+    color:var(--muted);
+    margin-bottom:4px;
+    white-space:nowrap;
+  }
+  .vbar-track{
+    flex:1;
+    width:16px;
+    display:flex;
+    align-items:flex-end;
+    background:rgba(27,67,50,0.06);
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .vbar-fill{
+    width:100%;
+    background:linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 100%);
+    border-radius:3px 3px 0 0;
+  }
+  .vbar-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9.5px;
+    color:var(--muted);
+    margin-top:5px;
+  }
+
+  ul.top-topics-list{
+    list-style:none;
+    margin:0; padding:0;
+  }
+  ul.top-topics-list li{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:8px 4px;
+    border-bottom:1px dashed rgba(27,67,50,0.15);
+  }
+  ul.top-topics-list li:last-child{border-bottom:none;}
+  .top-topic-text{
+    font-size:13px;
+    color:var(--ink);
+    display:block;
+  }
+  .top-topic-section{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    color:var(--muted);
+    margin-top:2px;
+  }
+  .top-topic-time{
+    flex:0 0 auto;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    font-weight:600;
+    color:var(--gold);
+    white-space:nowrap;
+  }
+
+  @media (max-width:600px){
+    .panel{padding:20px 16px 16px;}
+    .tab-btn{font-size:11.5px; padding:8px 10px 7px;}
+  }
+
+  /* ===== Modo de edição de conteúdo ===== */
+  .edit-toggle-btn{
+    background:none;
+    border:1px solid var(--gold);
+    color:var(--gold);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    font-weight:600;
+    padding:6px 12px;
+    border-radius:4px;
+    cursor:pointer;
+  }
+  .edit-toggle-btn:hover{background:rgba(184,137,43,0.1);}
+  .edit-toggle-btn.on{background:var(--gold); color:#fff;}
+
+  .item-toolbar{display:none; gap:6px; margin-top:8px;}
+  body.edit-mode .item-toolbar{display:flex;}
+  body.edit-mode ul.topics li{cursor:default;}
+  body.edit-mode ul.topics li:hover{background:none;}
+
+  .icon-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    border:1px solid rgba(27,67,50,0.3);
+    background:#fff;
+    color:var(--green);
+    border-radius:12px;
+    padding:2px 9px;
+    cursor:pointer;
+  }
+  .icon-btn:hover{background:rgba(27,67,50,0.08);}
+  .icon-btn.danger{border-color:rgba(140,47,39,0.4); color:var(--red-stamp);}
+  .icon-btn.danger:hover{background:rgba(140,47,39,0.08);}
+
+  .add-row{display:none; margin-top:10px; padding-top:10px; border-top:1px dashed rgba(27,67,50,0.2);}
+  body.edit-mode .add-row{display:block;}
+  .add-form{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+  .add-input{
+    flex:1 1 180px;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:13px;
+    padding:6px 8px;
+    border:1px solid rgba(27,67,50,0.35);
+    border-radius:4px;
+    background:#fff;
+    color:var(--ink);
+  }
+  .add-input.code-input{flex:0 1 170px; font-family:'IBM Plex Mono', monospace; font-size:12px;}
+  .add-confirm{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    font-weight:600;
+    color:#fff;
+    background:var(--green);
+    border:none;
+    border-radius:14px;
+    padding:6px 14px;
+    cursor:pointer;
+  }
+  .add-confirm:hover{background:var(--green-dark);}
+
+  .edit-text-input{
+    width:100%;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:14.5px;
+    padding:5px 7px;
+    border:1px solid var(--gold);
+    border-radius:4px;
+    background:#fff;
+    color:var(--ink);
+  }
+
+  .section-manage{display:none; justify-content:flex-end; margin-bottom:8px;}
+  body.edit-mode .section-manage{display:flex;}
+
+  .add-section-btn{
+    display:none;
+    margin:10px auto 0;
+    background:none;
+    border:1px dashed var(--gold);
+    color:var(--gold);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    padding:7px 16px;
+    border-radius:20px;
+    cursor:pointer;
+  }
+  body.edit-mode .add-section-btn{display:block;}
+  .add-section-btn:hover{background:rgba(184,137,43,0.1);}
+
+  .add-section-form{
+    display:none;
+    max-width:960px;
+    margin:8px auto 0;
+    padding:0 16px;
+    gap:6px;
+    align-items:center;
+    justify-content:center;
+  }
+  body.edit-mode.adding-section .add-section-form{display:flex;}
+  body.edit-mode.adding-section .add-section-btn{display:none;}
+
+  /* ===== Grupos (abas de nível 1) e matérias dentro do grupo (abas de nível 2) ===== */
+  /* As matérias (nível 2) usam um visual de "chip" arredondado, propositalmente
+     bem diferente das abas de grupo acima (que são retangulares tipo pasta),
+     para não serem confundidas com elas. */
+  #subtabs{
+    display:none;
+  }
+  #subtabs.show{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    max-width:960px;
+    margin:16px auto 0;
+    padding:14px 16px 0;
+    border-top:1px dashed rgba(59,76,124,0.25);
+  }
+  .sub-tab-btn{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    background:#fff;
+    border:1.5px solid var(--spec-color);
+    color:var(--spec-color);
+    padding:8px 14px;
+    border-radius:20px;
+    cursor:pointer;
+    opacity:1;
+    transition:background .15s, color .15s;
+  }
+  .sub-tab-btn .count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    margin-left:5px;
+    opacity:.85;
+  }
+  .sub-tab-btn:hover{background:var(--spec-color-light);}
+  .sub-tab-btn.active{
+    background:var(--spec-color);
+    color:#fff;
+    border-color:var(--spec-color);
+  }
+  .sub-tab-btn.law{
+    border-color:var(--red-stamp);
+    color:var(--red-stamp);
+  }
+  .sub-tab-btn.law.active{
+    background:var(--red-stamp);
+    color:#fff;
+    border-color:var(--red-stamp);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Câmara Municipal de Rio Verde — GO</h1>
+  <div class="subtitle">UniRV · Conteúdo Programático Específico — acompanhamento de estudo por matéria</div>
+  <div class="progress-wrap">
+    <div class="progress-fill" id="progress-fill"></div>
+    <div class="progress-label" id="progress-label">0 / 0 tópicos concluídos</div>
+  </div>
+</header>
+
+<div class="view-switch" id="view-switch">
+  <button class="view-btn active" data-view="content" onclick="switchView('content')">📘 Conteúdo</button>
+  <button class="view-btn" data-view="dashboard" onclick="switchView('dashboard')">📊 Histórico</button>
+</div>
+
+<nav class="tabs" id="tabs"></nav>
+<nav class="tabs" id="subtabs"></nav>
+
+<button class="add-section-btn" onclick="showAddSectionForm()">+ nova matéria</button>
+<div class="add-section-form" id="add-section-form">
+  <input type="text" id="new-section-name" class="add-input" placeholder="nome da nova matéria">
+  <button class="add-confirm" onclick="confirmAddSection()">criar</button>
+  <button class="time-cancel" onclick="hideAddSectionForm()">cancelar</button>
+</div>
+
+<main id="panels"></main>
+
+<div class="dash-main" id="dashboard-view" style="display:none;"></div>
+
+<input type="file" id="import-file-input" accept="application/json" style="display:none" onchange="handleImportFile(event)">
+
+<div class="io-actions">
+  <button class="io-btn" onclick="exportProgress()">⬇ exportar backup</button>
+  <button class="io-btn" onclick="triggerImport()">⬆ importar backup</button>
+  <button class="edit-toggle-btn" id="edit-toggle-btn" onclick="toggleEditMode()">✏️ editar conteúdo</button>
+</div>
+
+<button class="reset-btn" onclick="resetAll()">zerar todo o progresso</button>
+
+<footer>
+  Seu progresso fica salvo automaticamente neste dispositivo · toque em qualquer linha para marcar como estudado
+</footer>
+
+<script>
+const DEFAULT_DATA = [
+  {
+    id: "lportugues",
+    label: "Língua Portuguesa",
+    kind: "materia",
+    group: "Língua Portuguesa",
+    filterMateria: null,
+    topics: [
+      { text: "Análise e interpretação de textos: compreensão geral do texto; reconhecimento de ideia central e tese defendida pelo autor; argumentação; coerência e mecanismos de coesão; estrutura e organização do texto e dos parágrafos" },
+      { text: "Tipologias (texto descritivo, expositivo e argumentativo) e gêneros textuais" },
+      { text: "Tipos de discurso: direto, indireto e indireto livre" },
+      { text: "Significação vocabular: sinônimos e antônimos; conotação e denotação" },
+      { text: "Emprego dos pronomes pessoais" },
+      { text: "Vozes do verbo" },
+      { text: "Pontuação" },
+      { text: "Ortografia" },
+      { text: "Concordâncias verbal e nominal" },
+      { text: "Regências verbal e nominal" },
+      { text: "Redação" }
+    ]
+  },
+  {
+    id: "matematica",
+    label: "Matemática",
+    kind: "materia",
+    group: "Matemática",
+    filterMateria: null,
+    topics: [
+      { text: "Expressões numéricas, algébricas, produtos notáveis e fatoração" },
+      { text: "Conjuntos numéricos (operações, múltiplos, divisores e resolução de problemas)" },
+      { text: "Razão e proporção" },
+      { text: "Regra de três simples e composta" },
+      { text: "Porcentagem, juros simples e compostos" },
+      { text: "Função polinomial do 1º e 2º grau" },
+      { text: "Progressão aritmética e geométrica" },
+      { text: "Geometria plana" },
+      { text: "Análise combinatória: permutações, arranjos e combinações" },
+      { text: "Probabilidades" },
+      { text: "Estatística básica" },
+      { text: "Sistema métrico: medidas de comprimento, área, volume, capacidade, massa e tempo" },
+      { text: "Noções de lógica" }
+    ]
+  },
+  {
+    id: "informatica",
+    label: "Informática",
+    kind: "materia",
+    group: "Informática",
+    filterMateria: null,
+    topics: [
+      { text: "Conhecimentos básicos de hardware e redes de computadores" },
+      { text: "Manipulação de arquivos e dispositivos de armazenamento" },
+      { text: "Sistemas Operacionais" },
+      { text: "Conceitos e serviços relacionados à Internet, redes sociais e ao correio eletrônico" },
+      { text: "Princípios de segurança da informação e segurança digital" },
+      { text: "Microsoft Word: Funcionalidades básicas, configuração de página, mala direta e configurações de impressão" },
+      { text: "Microsoft Excel: Criação de tabelas, gráficos, uso de funções matemáticas, de contagem e condicionais" },
+      { text: "Microsoft PowerPoint: Criação e configuração de apresentações de slides" }
+    ]
+  },
+  {
+    id: "dadm",
+    label: "Direito Administrativo",
+    kind: "materia",
+    group: "Conhecimentos Específicos",
+    filterMateria: "Direito Administrativo (Doutrina e Leis Federais)",
+    topics: [
+      { text: "Origem, Conceito e Fontes do Direito Administrativo", filter: "Origem, Conceito e Fontes do Direito Administrativo", extra: true },
+      { text: "Princípios da Administração Pública (expressos e implícitos)", filter: "Regime Jurídico Administrativo > Princípios Expressos, Explícitos ou Constitucionais / Princípios Implícitos, Reconhecidos e Infraconstitucionais" },
+      { text: "Administração Pública: direta e indireta", filter: "Organização Administrativa" },
+      { text: "Atos administrativos", filter: "Atos Administrativos" },
+      { text: "Poderes Administrativos", filter: "Poderes e Deveres da Administração" },
+      { text: "Contratos administrativos", filter: "Licitações e Contratos Administrativos (Lei nº 14.133/2021)" },
+      { text: "Noções Gerais de Processo Administrativo Disciplinar e Sindicância", filter: "Processo Administrativo" },
+      { text: "Agentes Públicos", filter: "Agentes Públicos" },
+      { text: "Responsabilidade civil do Estado", filter: "Responsabilidade Civil do Estado" },
+      { text: "Serviços públicos", filter: "Serviços Públicos" },
+      { text: "Controle da Administração Pública", filter: "Controle da Administração" }
+    ]
+  },
+  {
+    id: "dcon",
+    label: "Direito Constitucional",
+    kind: "materia",
+    group: "Conhecimentos Específicos",
+    filterMateria: "Direito Constitucional (CF/1988 e Doutrina)",
+    topics: [
+      { text: "Direitos e garantias fundamentais", filter: "Dos Direitos e Garantias Fundamentais (arts. 5º a 17)" },
+      { text: "Organização do Estado: dos Municípios", filter: "Da Organização do Estado (arts. 18 a 43) > Municípios - Organização e Competências (arts. 29 a 31)" },
+      { text: "Da Administração Pública: disposições gerais e servidores públicos", filter: "Da Organização do Estado (arts. 18 a 43) > Administração Pública (arts. 37 a 43) > Disposições Gerais / Dos Servidores Públicos (arts. 39 a 41)" },
+      { text: "Poder Legislativo", filter: "Da Organização dos Poderes (arts. 44 a 135) > Do Poder Legislativo (arts. 44 a 75)" },
+      { text: "Da Fiscalização Contábil, Financeira e Orçamentária", filter: "Da Organização dos Poderes (arts. 44 a 135) > Do Poder Legislativo (arts. 44 a 75) > Da Fiscalização Contábil, Financeira e Orçamentária" }
+    ]
+  },
+  {
+    id: "adgeral",
+    label: "Administração Geral",
+    kind: "materia",
+    group: "Conhecimentos Específicos",
+    filterMateria: "Administração Geral e Pública",
+    topics: [
+      { text: "Conceitos e princípios fundamentais em Administração", filter: "Introdução à Administração" },
+      { text: "Funções da Administração", filter: "Processo de Planejamento / Organização / Direção / Controle e Avaliação" },
+      { text: "Controle administrativo", filter: "Processo de Controle e Avaliação" },
+      { text: "Comportamento organizacional", filter: "Comportamento Organizacional" },
+      { text: "Liderança", filter: "Processo de Direção > Liderança" },
+      { text: "Trabalho em equipe", filter: "Comportamento Organizacional > Grupos e Equipes de Trabalho" },
+      { text: "Comunicação", filter: "Comunicação" },
+      { text: "Motivação", filter: "Comportamento Organizacional > Motivação" },
+      { text: "Negociação", filter: "não localizado na árvore — pesquisar \"Negociação\" na busca por nome" },
+      { text: "Planejamento estratégico", filter: "Processo de Planejamento > Planejamento Estratégico" },
+      { text: "Gestão estratégica de pessoas", filter: "Gestão de Pessoas > Gestão Estratégica de Pessoas e Gestão de Pessoas Estratégica" },
+      { text: "Gestão por competências", filter: "Gestão por Competências" },
+      { text: "Avaliação do desempenho humano", filter: "Gestão de Pessoas > Desempenho" },
+      { text: "Treinamento e desenvolvimento", filter: "Gestão de Pessoas > Treinamento, Desenvolvimento e Educação (TD&E) / Educação Corporativa" },
+      { text: "Gestão de processos: análise de processos; cadeia de valor; desenho de processos; organogramas; estruturas organizacionais", filter: "Gestão por Processos (BPM CBOK, Ciclo PDCA, 6 Sigma etc.) / Processo de Organização > Desenho Organizacional, Organização Sistemas e Métodos (OSM)" },
+      { text: "Gestão de projetos: projetos como instrumento de ação estratégica; ciclo de projetos; gestão da informação e do conhecimento", filter: "Gestão do Conhecimento (ciclo de projetos não localizado — pode estar em matéria própria \"Gestão de Projetos\", verificar na busca)" },
+      { text: "Processo decisório: ferramentas e técnicas de apoio à decisão; tipos de decisões; solução de problemas", filter: "Processo Decisório (Tomada de Decisão)" }
+    ]
+  },
+  {
+    id: "adpub",
+    label: "Administração Pública",
+    kind: "materia",
+    group: "Conhecimentos Específicos",
+    filterMateria: "Administração Geral e Pública",
+    topics: [
+      { text: "Organização Governamental Brasileira", filter: "provável: Direito Administrativo > Organização Administrativa / Evolução da APU no Brasil (verificar qual encaixa melhor)" },
+      { text: "Paradigmas da administração pública e reformas administrativas: administração pública burocrática; a nova gestão pública; princípios", filter: "Modelos Teóricos de Gestão Pública > Administração Burocrática / Administração Gerencial (Nova Gestão Pública)" },
+      { text: "Políticas Públicas: formulação e avaliação de políticas públicas; Estado e políticas públicas; arranjos institucionais e política pública", filter: "não localizado nas pastas enviadas — pesquisar \"Políticas Públicas\" na busca por nome" },
+      { text: "Planejamento público: planos e programas de governo (visão administrativa)", filter: "Processo de Planejamento > Planejamento e Estratégia no Setor Público" },
+      { text: "Flexibilização da ação estatal: parcerias público-privadas; consórcios; terceirização; redes e parcerias com organizações da sociedade civil", filter: "Direito Administrativo > Serviços Públicos > Convênios Administrativos, Lei nº 11.079/2004 (PPP), Lei nº 11.107/2005 (Consórcios), Lei nº 13.019/2014 (Parcerias com OSC)" },
+      { text: "Mudanças institucionais: conselhos; organizações sociais; OSCIP; agência reguladora; agência executiva; centralização versus descentralização", filter: "Direito Administrativo > Organização Administrativa / Modelos Teóricos de Gestão Pública > Administração Gerencial" },
+      { text: "Governança: princípios da governança; fundamentos e governança pública; governabilidade; accountability", filter: "Governabilidade, Governança e Intermediação de Interesses / Accountability e Transparência" },
+      { text: "Estratégia em Organizações Públicas: conceitos centrais em planejamento; Gestão por resultados no setor público: metodologias de gestão; avaliação de programas e projetos públicos; indicadores de desempenho", filter: "Ciclo de Gestão / Gestão da Qualidade > Gestão por Resultados" }
+    ]
+  },
+  {
+    id: "afo",
+    label: "AFO",
+    kind: "materia",
+    group: "Conhecimentos Específicos",
+    filterMateria: "AFO, Direito Financeiro e Contabilidade Pública",
+    topics: [
+      { text: "Processo orçamentário", filter: "Ciclo Orçamentário" },
+      { text: "Plano Plurianual — PPA", filter: "Orçamento Público" },
+      { text: "Lei de Diretrizes Orçamentárias — LDO", filter: "Orçamento Público" },
+      { text: "Lei Orçamentária Anual — LOA", filter: "Orçamento Público" }
+    ]
+  },
+  {
+    id: "recmat",
+    label: "Administração de Recursos Materiais",
+    kind: "materia",
+    group: "Conhecimentos Específicos",
+    filterMateria: "Administração de Recursos Materiais",
+    topics: [
+      { text: "Administração de materiais e patrimônio", filter: "Noções de Administração de Materiais / Administração de Materiais no Setor Público" },
+      { text: "Gestão patrimonial", filter: "Administração Patrimonial" },
+      { text: "Almoxarifado", filter: "Gestão de Almoxarifado" }
+    ]
+  },
+  {
+    id: "arquivologia",
+    label: "Arquivologia",
+    kind: "materia",
+    group: "Conhecimentos Específicos",
+    filterMateria: "Arquivologia",
+    topics: [
+      { text: "Gestão documental, protocolo, classificação e tramitação", filter: "Gestão da Informação e de Documentos" },
+      { text: "Arquivologia e preservação documental", filter: "Conceitos Fundamentais de Arquivologia / Preservação, Conservação e Restauração de Acervos" }
+    ]
+  },
+  {
+    id: "redoficial",
+    label: "Redação Oficial",
+    kind: "materia",
+    group: "Conhecimentos Específicos",
+    filterMateria: null,
+    topics: [
+      { text: "Comunicações oficiais" },
+      { text: "Elaboração de ofícios, memorandos, pareceres, relatórios e demais atos administrativos" }
+    ]
+  },
+  {
+    id: "etica",
+    label: "Ética",
+    kind: "materia",
+    group: "Conhecimentos Específicos",
+    filterMateria: null,
+    topics: [
+      { text: "Ética na Administração Pública" }
+    ]
+  },
+  {
+    id: "leis",
+    label: "Legislação",
+    kind: "law",
+    group: "Conhecimentos Específicos",
+    topics: [
+      { code: "Lei nº 14.133/2021", text: "Licitações e Contratos Administrativos" },
+      { code: "Lei Complementar nº 101/2000", text: "Lei de Responsabilidade Fiscal" },
+      { code: "Lei nº 12.527/2011", text: "Lei de Acesso à Informação" },
+      { code: "Lei nº 13.709/2018", text: "Lei Geral de Proteção de Dados Pessoais — LGPD" },
+      { code: "Lei nº 8.429/1992", text: "Lei de Improbidade Administrativa, com as alterações da Lei nº 14.230/2021" }
+    ]
+  },
+  {
+    id: "leisesp",
+    label: "Legislação Específica",
+    kind: "law",
+    group: "Conhecimentos Específicos",
+    topics: [
+      { code: "Lei Orgânica", text: "Lei Orgânica do Município de Rio Verde" },
+      { code: "Resolução nº 33/2000", text: "de 09 de novembro de 2000 — Regimento Interno da Câmara Municipal de Rio Verde" },
+      { code: "Lei nº 7.435/2023", text: "Plano de Cargos e Remuneração dos Servidores da Câmara Municipal de Rio Verde" },
+      { code: "Lei Municipal nº 7.434/2023", text: "Estrutura Organizacional da Câmara Municipal de Rio Verde — Estado de Goiás" }
+    ]
+  },
+];
+
+const STORAGE_KEY = "rioverde-edital-progress";
+const DATA_STORAGE_KEY = "rioverde-edital-conteudo";
+const TIME_STORAGE_KEY = "rioverde-edital-tempo-materia";
+const CE_GROUP = "Conhecimentos Específicos";
+let checked = {};
+let sectionTime = {};
+let DATA = [];
+let editMode = false;
+let currentTab = null;
+let currentGroup = null;
+
+function getGroups(){
+  const seen = [];
+  DATA.forEach(s => {
+    const g = s.group || "Conhecimentos Específicos";
+    if(!seen.includes(g)) seen.push(g);
+  });
+  return seen;
+}
+
+function getGroupSections(g){
+  return DATA.filter(s => (s.group || "Conhecimentos Específicos") === g);
+}
+
+async function loadData(){
+  let stored = null;
+  try{
+    const raw = localStorage.getItem(DATA_STORAGE_KEY);
+    if(raw) stored = JSON.parse(raw);
+  }catch(e){}
+
+  if(stored){
+    DATA = stored;
+    // preenche "group" em conteúdo salvo antes da criação dos grupos
+    DATA.forEach(s => { if(!s.group) s.group = "Conhecimentos Específicos"; });
+    // acrescenta automaticamente matérias novas do conteúdo padrão que ainda não existem no que já foi salvo
+    const existingIds = new Set(DATA.map(s => s.id));
+    DEFAULT_DATA.forEach(defSection => {
+      if(!existingIds.has(defSection.id)){
+        DATA.push({
+          ...defSection,
+          topics: defSection.topics.map((t, idx) => ({ ...t, uid: defSection.id + "-" + idx }))
+        });
+      }
+    });
+    saveData();
+    return;
+  }
+
+  // primeira vez: usa o conteúdo padrão, dando a cada tópico um uid estável
+  // (igual ao esquema antigo sectionId-índice, para não perder progresso já salvo)
+  DATA = DEFAULT_DATA.map(section => ({
+    ...section,
+    topics: section.topics.map((t, idx) => ({ ...t, uid: section.id + "-" + idx }))
+  }));
+  saveData();
+}
+
+function saveData(){
+  try{
+    localStorage.setItem(DATA_STORAGE_KEY, JSON.stringify(DATA));
+  }catch(e){ console.error("Falha ao salvar conteúdo", e); }
+}
+
+/* ===== Tempo de estudo por matéria (não mais por tópico) ===== */
+function loadSectionTime(){
+  try{
+    const raw = JSON.parse(localStorage.getItem(TIME_STORAGE_KEY) || "null");
+    sectionTime = raw && typeof raw === "object" ? raw : {};
+  }catch(e){ sectionTime = {}; }
+}
+
+function saveSectionTime(){
+  try{
+    localStorage.setItem(TIME_STORAGE_KEY, JSON.stringify(sectionTime));
+  }catch(e){ console.error("Falha ao salvar tempo de estudo", e); }
+}
+
+function rebuildAll(){
+  document.getElementById("tabs").innerHTML = "";
+  document.getElementById("subtabs").innerHTML = "";
+  document.getElementById("panels").innerHTML = "";
+
+  const groups = getGroups();
+  if(!currentGroup || !groups.includes(currentGroup)) currentGroup = groups[0] || null;
+
+  buildTabs();
+  buildPanels();
+
+  const sections = currentGroup ? getGroupSections(currentGroup) : [];
+  if(!currentTab || !sections.some(s => s.id === currentTab)){
+    currentTab = sections[0] ? sections[0].id : (DATA[0] ? DATA[0].id : null);
+  }
+  buildSubTabs();
+  document.querySelectorAll(".group-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.group === currentGroup));
+  if(currentTab) switchTab(currentTab);
+
+  render();
+  saveData();
+}
+
+function switchGroup(g){
+  currentGroup = g;
+  document.querySelectorAll(".group-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.group === g));
+  const sections = getGroupSections(g);
+  const keep = sections.some(s => s.id === currentTab);
+  const target = keep ? currentTab : (sections[0] ? sections[0].id : null);
+  buildSubTabs();
+  if(target) switchTab(target);
+}
+
+
+/* ===== Edição de conteúdo ===== */
+function toggleEditMode(){
+  editMode = !editMode;
+  document.body.classList.toggle("edit-mode", editMode);
+  const btn = document.getElementById("edit-toggle-btn");
+  btn.textContent = editMode ? "✓ concluir edição" : "✏️ editar conteúdo";
+  btn.classList.toggle("on", editMode);
+  if(!editMode) hideAddSectionForm();
+}
+
+function startEditTopic(sectionId, uid, textEl){
+  const section = DATA.find(s => s.id === sectionId);
+  const topic = section && section.topics.find(t => t.uid === uid);
+  if(!topic) return;
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.className = "edit-text-input";
+  input.value = topic.text;
+  textEl.replaceWith(input);
+  input.focus();
+  input.select();
+  input.onclick = (ev) => ev.stopPropagation();
+
+  const finish = (save) => {
+    if(save){
+      const val = input.value.trim();
+      if(val) topic.text = val;
+    }
+    rebuildAll();
+  };
+  input.onkeydown = (ev) => {
+    if(ev.key === "Enter"){ ev.preventDefault(); finish(true); }
+    if(ev.key === "Escape"){ ev.preventDefault(); finish(false); }
+  };
+  input.onblur = () => finish(true);
+}
+
+function removeTopic(sectionId, uid){
+  const section = DATA.find(s => s.id === sectionId);
+  if(!section) return;
+  if(!confirm("Remover este tópico? Essa ação não pode ser desfeita.")) return;
+  section.topics = section.topics.filter(t => t.uid !== uid);
+  delete checked[uid];
+  rebuildAll();
+  saveProgress();
+}
+
+function addTopicToSection(sectionId, topicData){
+  const section = DATA.find(s => s.id === sectionId);
+  if(!section) return;
+  topicData.uid = sectionId + "-new-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  section.topics.push(topicData);
+  currentTab = sectionId;
+  rebuildAll();
+}
+
+function removeSection(sectionId){
+  if(DATA.length <= 1){ alert("Não é possível remover a única matéria."); return; }
+  const section = DATA.find(s => s.id === sectionId);
+  if(!section) return;
+  if(!confirm('Remover a matéria "' + section.label + '" e todos os seus tópicos? Essa ação não pode ser desfeita.')) return;
+  section.topics.forEach(t => delete checked[t.uid]);
+  DATA = DATA.filter(s => s.id !== sectionId);
+  currentTab = DATA[0] ? DATA[0].id : null;
+  rebuildAll();
+  saveProgress();
+}
+
+function showAddSectionForm(){
+  document.body.classList.add("adding-section");
+  const input = document.getElementById("new-section-name");
+  if(input){ input.value = ""; input.focus(); }
+}
+
+function hideAddSectionForm(){
+  document.body.classList.remove("adding-section");
+}
+
+function slugify(str){
+  const base = str.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
+    .slice(0, 24);
+  return "sec-" + (base || "materia") + "-" + Date.now().toString(36).slice(-4);
+}
+
+function confirmAddSection(){
+  const input = document.getElementById("new-section-name");
+  const label = input.value.trim();
+  if(!label) return;
+  const newSection = { id: slugify(label), label: label, kind: "materia", filterMateria: null, group: currentGroup || "Conhecimentos Específicos", topics: [] };
+  DATA.push(newSection);
+  currentTab = newSection.id;
+  hideAddSectionForm();
+  rebuildAll();
+}
+
+async function loadProgress(){
+  try{
+    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+    if(raw){
+      checked = {};
+      Object.keys(raw).forEach(k => {
+        const v = raw[k];
+        if(typeof v === "boolean"){
+          checked[k] = v ? { done: true, reviews: 0, lastDate: null, totalMinutes: 0, log: [] } : null;
+        } else if(v === null){
+          checked[k] = null;
+        } else {
+          // garante compatibilidade com progresso salvo antes do recurso de tempo
+          checked[k] = Object.assign({ done: false, reviews: 0, lastDate: null, totalMinutes: 0, log: [] }, v);
+        }
+      });
+    }
+  }catch(e){ checked = {}; }
+}
+
+function saveProgress(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+  }catch(e){ console.error("Falha ao salvar progresso", e); }
+}
+
+function buildTabs(){
+  const tabsEl = document.getElementById("tabs");
+  const groups = getGroups();
+  groups.forEach((g) => {
+    const btn = document.createElement("button");
+    btn.className = "tab-btn group-tab-btn" + (g === currentGroup ? " active" : "");
+    btn.dataset.group = g;
+    btn.textContent = g;
+    btn.onclick = () => switchGroup(g);
+    tabsEl.appendChild(btn);
+  });
+}
+
+function buildSubTabs(){
+  const subEl = document.getElementById("subtabs");
+  subEl.innerHTML = "";
+  subEl.classList.remove("show");
+  const sections = currentGroup ? getGroupSections(currentGroup) : [];
+  if(sections.length <= 1){
+    return;
+  }
+
+  subEl.classList.add("show");
+
+  sections.forEach((section) => {
+    const btn = document.createElement("button");
+    btn.className = "sub-tab-btn" + (section.kind === "law" ? " law" : "") + (section.id === currentTab ? " active" : "");
+    btn.innerHTML = section.label + ' <span class="count" id="tabcount-' + section.id + '"></span>';
+    btn.dataset.target = "panel-" + section.id;
+    btn.onclick = () => switchTab(section.id);
+    subEl.appendChild(btn);
+  });
+}
+
+function buildPanels(){
+  const main = document.getElementById("panels");
+  DATA.forEach((section, i) => {
+    const panel = document.createElement("div");
+    panel.className = "panel" + (i === 0 ? " active" : "") + ((section.group || CE_GROUP) === CE_GROUP ? " panel-spec" : "");
+    panel.id = "panel-" + section.id;
+
+    const stamp = document.createElement("div");
+    stamp.className = "stamp";
+    stamp.textContent = "CONFERIDO";
+    panel.appendChild(stamp);
+
+    const head = document.createElement("div");
+    head.className = "panel-head";
+    head.innerHTML = '<div><h2>' + section.label + '</h2></div><span class="panel-count" id="pcount-' + section.id + '"></span>';
+    panel.appendChild(head);
+
+    const manage = document.createElement("div");
+    manage.className = "section-manage";
+    const delSecBtn = document.createElement("button");
+    delSecBtn.className = "icon-btn danger";
+    delSecBtn.textContent = "🗑 remover matéria";
+    delSecBtn.onclick = () => removeSection(section.id);
+    manage.appendChild(delSecBtn);
+    panel.appendChild(manage);
+
+    const sectionTimeRow = document.createElement("div");
+    sectionTimeRow.className = "section-time-row";
+    sectionTimeRow.dataset.sectionTimeFor = section.id;
+    panel.appendChild(sectionTimeRow);
+
+    const ul = document.createElement("ul");
+    ul.className = "topics";
+
+    section.topics.forEach((topic) => {
+      const li = document.createElement("li");
+      const tid = topic.uid;
+      li.dataset.id = tid;
+      li.dataset.section = section.id;
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+      const textWrap = document.createElement("div");
+      textWrap.style.flex = "1";
+
+      const text = document.createElement("div");
+      text.className = "topic-text";
+      const isWarn = topic.filter && (topic.filter.includes("verificar") || topic.filter.includes("não localizad") || topic.filter.includes("provável") || topic.filter.includes("provavelmente"));
+      const filterHtml = topic.filter ? '<span class="filter-tag' + (isWarn ? ' warn' : '') + '">[' + topic.filter + ']</span>' : '';
+      const extraHtml = topic.extra ? '<span class="extra-badge">extra</span>' : '';
+      if(section.kind === "law"){
+        text.innerHTML = '<span class="lei-code">' + topic.code + '</span>' + topic.text + filterHtml;
+      } else {
+        text.innerHTML = topic.text + extraHtml + filterHtml;
+      }
+      textWrap.appendChild(text);
+
+      const reviewRow = document.createElement("div");
+      reviewRow.className = "review-row";
+      reviewRow.dataset.reviewFor = tid;
+      textWrap.appendChild(reviewRow);
+
+      const toolbar = document.createElement("div");
+      toolbar.className = "item-toolbar";
+      const editBtn = document.createElement("button");
+      editBtn.className = "icon-btn";
+      editBtn.textContent = "✎ editar";
+      editBtn.onclick = (ev) => { ev.stopPropagation(); startEditTopic(section.id, tid, text); };
+      const delBtn = document.createElement("button");
+      delBtn.className = "icon-btn danger";
+      delBtn.textContent = "🗑 remover";
+      delBtn.onclick = (ev) => { ev.stopPropagation(); removeTopic(section.id, tid); };
+      toolbar.appendChild(editBtn);
+      toolbar.appendChild(delBtn);
+      textWrap.appendChild(toolbar);
+
+      li.appendChild(bubble);
+      li.appendChild(textWrap);
+      li.onclick = () => { if(!editMode) toggle(tid, section.id); };
+      ul.appendChild(li);
+    });
+
+    panel.appendChild(ul);
+
+    const addRow = document.createElement("div");
+    addRow.className = "add-row";
+    const addForm = document.createElement("div");
+    addForm.className = "add-form";
+
+    let codeInput = null;
+    if(section.kind === "law"){
+      codeInput = document.createElement("input");
+      codeInput.type = "text";
+      codeInput.className = "add-input code-input";
+      codeInput.placeholder = "código (ex: Lei nº 0000/0000)";
+      addForm.appendChild(codeInput);
+    }
+    const textInput = document.createElement("input");
+    textInput.type = "text";
+    textInput.className = "add-input";
+    textInput.placeholder = "novo tópico...";
+    addForm.appendChild(textInput);
+
+    const addBtn = document.createElement("button");
+    addBtn.className = "add-confirm";
+    addBtn.textContent = "+ adicionar";
+    const submitAdd = () => {
+      const val = textInput.value.trim();
+      if(!val) return;
+      const newTopic = section.kind === "law"
+        ? { code: (codeInput.value.trim() || "—"), text: val }
+        : { text: val };
+      addTopicToSection(section.id, newTopic);
+    };
+    addBtn.onclick = submitAdd;
+    textInput.onclick = (ev) => ev.stopPropagation();
+    textInput.onkeydown = (ev) => { if(ev.key === "Enter"){ ev.preventDefault(); submitAdd(); } };
+    addForm.appendChild(addBtn);
+
+    addRow.appendChild(addForm);
+    panel.appendChild(addRow);
+
+    main.appendChild(panel);
+  });
+}
+
+function toggle(tid, sectionId){
+  const cur = checked[tid] || { done: false, reviews: 0, lastDate: null, totalMinutes: 0, log: [] };
+  if(cur.done){
+    cur.done = false;
+  } else {
+    cur.done = true;
+    cur.lastDate = cur.lastDate || todayStr();
+  }
+  checked[tid] = cur;
+  render();
+  saveProgress();
+}
+
+function reviewTopic(ev, tid){
+  ev.stopPropagation();
+  const cur = checked[tid] || { done: true, reviews: 0, lastDate: null, totalMinutes: 0, log: [] };
+  cur.done = true;
+  cur.reviews = (cur.reviews || 0) + 1;
+  cur.lastDate = todayStr();
+  checked[tid] = cur;
+  render();
+  saveProgress();
+}
+
+function todayStr(){
+  const d = new Date();
+  return String(d.getDate()).padStart(2,"0") + "/" + String(d.getMonth()+1).padStart(2,"0");
+}
+
+function todayISO(){
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+}
+
+function formatMinutes(min){
+  min = Math.round(min || 0);
+  const h = Math.floor(min / 60);
+  const m = min % 60;
+  if(h > 0) return h + "h" + (m > 0 ? String(m).padStart(2,"0") + "m" : "");
+  return m + "m";
+}
+
+/* ===== Registro de tempo de estudo (por matéria como um todo) ===== */
+function openSectionTimeForm(sectionId, container){
+  container.innerHTML = "";
+  const form = document.createElement("div");
+  form.className = "time-form";
+
+  const input = document.createElement("input");
+  input.type = "number";
+  input.min = "1";
+  input.placeholder = "min";
+  input.className = "time-input";
+  input.value = "30";
+
+  const submit = () => {
+    const minutes = parseInt(input.value, 10);
+    if(minutes > 0){
+      addSectionTimeLog(sectionId, minutes);
+    }
+  };
+
+  [15, 30, 60].forEach(q => {
+    const qbtn = document.createElement("button");
+    qbtn.type = "button";
+    qbtn.className = "time-quick";
+    qbtn.textContent = "+" + q;
+    qbtn.onclick = (ev) => { ev.stopPropagation(); input.value = q; };
+    form.appendChild(qbtn);
+  });
+
+  form.appendChild(input);
+
+  const ok = document.createElement("button");
+  ok.type = "button";
+  ok.className = "time-confirm";
+  ok.textContent = "salvar";
+  ok.onclick = (ev) => { ev.stopPropagation(); submit(); };
+
+  const cancel = document.createElement("button");
+  cancel.type = "button";
+  cancel.className = "time-cancel";
+  cancel.textContent = "cancelar";
+  cancel.onclick = (ev) => { ev.stopPropagation(); render(); };
+
+  form.appendChild(ok);
+  form.appendChild(cancel);
+  container.appendChild(form);
+  input.focus();
+  input.select();
+  input.onclick = (ev) => ev.stopPropagation();
+  input.onkeydown = (ev) => { if(ev.key === "Enter"){ ev.preventDefault(); submit(); } };
+}
+
+function addSectionTimeLog(sectionId, minutes){
+  const cur = sectionTime[sectionId] || { totalMinutes: 0, log: [] };
+  cur.totalMinutes = (cur.totalMinutes || 0) + minutes;
+  cur.log = cur.log || [];
+  cur.log.push({ date: todayISO(), minutes: minutes });
+  sectionTime[sectionId] = cur;
+  render();
+  saveSectionTime();
+}
+
+/* ===== Dashboard de histórico ===== */
+function gatherStudyStats(){
+  let totalMinutes = 0;
+  const bySection = {};
+  const byDay = {};
+  const recentLog = [];
+
+  DATA.forEach(section => {
+    if(section.kind === "dashboard") return;
+    const st = sectionTime[section.id];
+    const minutes = (st && st.totalMinutes) || 0;
+    if(minutes > 0){
+      totalMinutes += minutes;
+      bySection[section.id] = { label: section.label, minutes: minutes };
+    }
+    if(st && st.log && st.log.length){
+      st.log.forEach(entry => {
+        byDay[entry.date] = (byDay[entry.date] || 0) + entry.minutes;
+        recentLog.push({ date: entry.date, minutes: entry.minutes, label: section.label });
+      });
+    }
+  });
+
+  return { totalMinutes, bySection, byDay, recentLog };
+}
+
+function buildHBarChart(arr){
+  const max = Math.max.apply(null, arr.map(a => a.minutes).concat([1]));
+  return '<div class="hbar-chart">' + arr.map(a =>
+    '<div class="hbar-row">' +
+      '<span class="hbar-label">' + a.label + '</span>' +
+      '<div class="hbar-track"><div class="hbar-fill" style="width:' + Math.max(4, Math.round(a.minutes / max * 100)) + '%"></div></div>' +
+      '<span class="hbar-value">' + formatMinutes(a.minutes) + '</span>' +
+    '</div>'
+  ).join("") + '</div>';
+}
+
+function buildVBarChart(arr){
+  const max = Math.max.apply(null, arr.map(a => a.minutes).concat([1]));
+  return '<div class="vbar-chart">' + arr.map(a =>
+    '<div class="vbar-col">' +
+      '<div class="vbar-value">' + formatMinutes(a.minutes) + '</div>' +
+      '<div class="vbar-track"><div class="vbar-fill" style="height:' + Math.max(6, Math.round(a.minutes / max * 100)) + '%"></div></div>' +
+      '<div class="vbar-label">' + a.label + '</div>' +
+    '</div>'
+  ).join("") + '</div>';
+}
+
+function renderDashboard(){
+  const panel = document.getElementById("panel-dashboard");
+  if(!panel) return;
+  const stats = gatherStudyStats();
+
+  const statsEl = document.getElementById("dash-stats");
+  if(statsEl){
+    const daysWithLog = Object.keys(stats.byDay).length;
+    const materiasComTempo = Object.keys(stats.bySection).length;
+    statsEl.innerHTML =
+      '<div class="stat-card"><div class="stat-value">' + formatMinutes(stats.totalMinutes) + '</div><div class="stat-label">tempo total estudado</div></div>' +
+      '<div class="stat-card"><div class="stat-value">' + daysWithLog + '</div><div class="stat-label">dias com registro</div></div>' +
+      '<div class="stat-card"><div class="stat-value">' + materiasComTempo + '</div><div class="stat-label">matérias com tempo</div></div>';
+  }
+
+  const materiaEl = document.getElementById("dash-materia-chart");
+  if(materiaEl){
+    const arr = Object.values(stats.bySection).sort((a, b) => b.minutes - a.minutes);
+    materiaEl.innerHTML = arr.length
+      ? buildHBarChart(arr)
+      : '<p class="dash-empty">Nenhum tempo registrado ainda. Toque em "⏱ registrar tempo" em qualquer matéria para começar.</p>';
+  }
+
+  const dailyEl = document.getElementById("dash-daily-chart");
+  if(dailyEl){
+    const dates = Object.keys(stats.byDay).sort();
+    const last = dates.slice(-14);
+    const arr = last.map(d => ({ label: d.slice(8, 10) + "/" + d.slice(5, 7), minutes: stats.byDay[d] }));
+    dailyEl.innerHTML = arr.length
+      ? buildVBarChart(arr)
+      : '<p class="dash-empty">Sem histórico diário ainda.</p>';
+  }
+
+  const topEl = document.getElementById("dash-top-list");
+  if(topEl){
+    const recent = stats.recentLog.slice().sort((a, b) => b.date < a.date ? -1 : b.date > a.date ? 1 : 0).slice(0, 10);
+    topEl.innerHTML = recent.length
+      ? recent.map(r =>
+          '<li><span class="top-topic-text">' + r.label + '<span class="top-topic-section">' + r.date.slice(8,10) + '/' + r.date.slice(5,7) + '/' + r.date.slice(0,4) + '</span></span>' +
+          '<span class="top-topic-time">' + formatMinutes(r.minutes) + '</span></li>'
+        ).join("")
+      : '<li class="dash-empty">Nenhum registro de tempo ainda.</li>';
+  }
+}
+
+function switchTab(id){
+  currentTab = id;
+  document.querySelectorAll(".sub-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.target === "panel-" + id));
+  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.id === "panel-" + id));
+}
+
+function switchView(view){
+  document.getElementById("tabs").style.display = view === "content" ? "flex" : "none";
+  document.getElementById("panels").style.display = view === "content" ? "block" : "none";
+  document.getElementById("dashboard-view").style.display = view === "dashboard" ? "block" : "none";
+  document.querySelectorAll(".view-btn").forEach(b => b.classList.toggle("active", b.dataset.view === view));
+}
+
+function buildDashboard(){
+  const wrap = document.getElementById("dashboard-view");
+  const panel = document.createElement("div");
+  panel.className = "panel active";
+  panel.id = "panel-dashboard";
+
+  const head = document.createElement("div");
+  head.className = "panel-head";
+  head.innerHTML = '<div><h2>Histórico de Estudo</h2></div>';
+  panel.appendChild(head);
+
+  const stats = document.createElement("div");
+  stats.className = "dash-stats";
+  stats.id = "dash-stats";
+  panel.appendChild(stats);
+
+  const t1 = document.createElement("div");
+  t1.className = "dash-section-title";
+  t1.textContent = "Tempo por matéria";
+  panel.appendChild(t1);
+  const materiaChart = document.createElement("div");
+  materiaChart.id = "dash-materia-chart";
+  panel.appendChild(materiaChart);
+
+  const t2 = document.createElement("div");
+  t2.className = "dash-section-title";
+  t2.textContent = "Últimos dias estudados";
+  panel.appendChild(t2);
+  const dailyChart = document.createElement("div");
+  dailyChart.id = "dash-daily-chart";
+  panel.appendChild(dailyChart);
+
+  const t3 = document.createElement("div");
+  t3.className = "dash-section-title";
+  t3.textContent = "Últimos registros de tempo";
+  panel.appendChild(t3);
+  const topList = document.createElement("ul");
+  topList.className = "top-topics-list";
+  topList.id = "dash-top-list";
+  panel.appendChild(topList);
+
+  wrap.appendChild(panel);
+}
+
+function render(){
+  let totalAll = 0, doneAll = 0;
+
+  DATA.forEach(section => {
+    if(section.kind === "dashboard") return;
+    let done = 0;
+    section.topics.forEach((topic) => {
+      const tid = topic.uid;
+      const li = document.querySelector('li[data-id="' + tid + '"]');
+      const state = checked[tid];
+      const isDone = !!(state && state.done);
+      if(li) li.classList.toggle("done", isDone);
+      if(isDone) done++;
+
+      const reviewRow = document.querySelector('[data-review-for="' + tid + '"]');
+      if(reviewRow){
+        reviewRow.innerHTML = "";
+        if(isDone){
+          const btn = document.createElement("button");
+          btn.className = "review-btn";
+          btn.textContent = "🔁 revisar";
+          btn.onclick = (ev) => reviewTopic(ev, tid);
+          reviewRow.appendChild(btn);
+          const reviews = (state && state.reviews) || 0;
+          if(reviews > 0 || state.lastDate){
+            const info = document.createElement("span");
+            info.className = "review-info";
+            info.textContent = (reviews > 0 ? "revisado " + reviews + "x" : "estudado") + (state.lastDate ? " · última vez " + state.lastDate : "");
+            reviewRow.appendChild(info);
+          }
+        }
+      }
+    });
+    const sectionTimeRow = document.querySelector('[data-section-time-for="' + section.id + '"]');
+    if(sectionTimeRow){
+      const st = sectionTime[section.id];
+      const totalMin = (st && st.totalMinutes) || 0;
+      sectionTimeRow.innerHTML = "";
+      const label = document.createElement("span");
+      label.className = "section-time-label";
+      label.textContent = "tempo estudado nesta matéria:";
+      sectionTimeRow.appendChild(label);
+      const btn = document.createElement("button");
+      btn.className = "time-btn";
+      btn.textContent = "⏱ registrar tempo";
+      btn.onclick = (ev) => { ev.stopPropagation(); openSectionTimeForm(section.id, sectionTimeRow); };
+      sectionTimeRow.appendChild(btn);
+      if(totalMin > 0){
+        const info = document.createElement("span");
+        info.className = "time-info";
+        info.textContent = "⏱ " + formatMinutes(totalMin) + " no total";
+        sectionTimeRow.appendChild(info);
+      }
+    }
+
+    const total = section.topics.length;
+    totalAll += total;
+    doneAll += done;
+
+    const tabCount = document.getElementById("tabcount-" + section.id);
+    if(tabCount) tabCount.textContent = done + "/" + total;
+
+    const pCount = document.getElementById("pcount-" + section.id);
+    if(pCount) pCount.textContent = done + " de " + total + " concluídos";
+
+    const panel = document.getElementById("panel-" + section.id);
+    if(panel) panel.classList.toggle("complete", done === total && total > 0);
+  });
+
+  const pct = totalAll ? Math.round((doneAll / totalAll) * 100) : 0;
+  document.getElementById("progress-fill").style.width = pct + "%";
+  document.getElementById("progress-label").textContent = doneAll + " / " + totalAll + " tópicos concluídos (" + pct + "%)";
+
+  renderDashboard();
+}
+
+async function resetAll(){
+  if(!confirm("Zerar todo o progresso de estudo? Essa ação não pode ser desfeita.")) return;
+  checked = {};
+  sectionTime = {};
+  render();
+  await saveProgress();
+  saveSectionTime();
+}
+
+function exportProgress(){
+  const payload = {
+    exportedAt: new Date().toISOString(),
+    source: STORAGE_KEY,
+    data: checked,
+    time: sectionTime
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "progresso-estudo-rioverde-" + todayISO() + ".json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function triggerImport(){
+  document.getElementById("import-file-input").click();
+}
+
+async function handleImportFile(ev){
+  const file = ev.target.files[0];
+  if(!file) return;
+  try{
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    const raw = (parsed && typeof parsed === "object" && parsed.data) ? parsed.data : parsed;
+    if(!raw || typeof raw !== "object") throw new Error("formato inválido");
+
+    if(!confirm("Importar este arquivo vai substituir todo o progresso atual. Deseja continuar?")){
+      ev.target.value = "";
+      return;
+    }
+
+    const novo = {};
+    Object.keys(raw).forEach(k => {
+      const v = raw[k];
+      if(v === null || v === undefined){
+        novo[k] = null;
+      } else if(typeof v === "boolean"){
+        novo[k] = v ? { done: true, reviews: 0, lastDate: null, totalMinutes: 0, log: [] } : null;
+      } else {
+        novo[k] = Object.assign({ done: false, reviews: 0, lastDate: null, totalMinutes: 0, log: [] }, v);
+      }
+    });
+    checked = novo;
+    sectionTime = (parsed && parsed.time && typeof parsed.time === "object") ? parsed.time : {};
+    render();
+    await saveProgress();
+    saveSectionTime();
+    alert("Progresso importado com sucesso!");
+  }catch(e){
+    alert("Não foi possível importar este arquivo. Verifique se é um backup válido deste protocolo.");
+  }
+  ev.target.value = "";
+}
+
+(async function init(){
+  await loadData();
+  const groups = getGroups();
+  currentGroup = groups[0] || null;
+  const firstSections = currentGroup ? getGroupSections(currentGroup) : [];
+  currentTab = firstSections[0] ? firstSections[0].id : (DATA[0] ? DATA[0].id : null);
+  buildTabs();
+  buildPanels();
+  buildSubTabs();
+  if(currentTab) switchTab(currentTab);
+  buildDashboard();
+  await loadProgress();
+  loadSectionTime();
+  render();
+})();
+</script>
+
+</body>
+</html>
