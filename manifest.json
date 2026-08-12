@@ -1,0 +1,13 @@
+{
+  "background_color": "#1b4332",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Concurso Rio Verde",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Concurso RV",
+  "start_url": "/",
+  "theme_color": "#f4f0e6",
+  "description": "Acompanhamento de edital e horas",
+  "id": "concurso"
+}
