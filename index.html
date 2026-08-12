@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<link rel="manifest" href="manifest.json">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Protocolo de Estudos — Câmara Municipal de Rio Verde</title>
@@ -471,6 +470,58 @@
   }
   .time-btn:hover{background:rgba(184,137,43,0.18);}
   .time-btn:active{transform:scale(0.97);}
+  .live-timer-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    font-weight:600;
+    border-radius:20px;
+    padding:3px 12px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .live-timer-btn.start{
+    color:var(--green);
+    background:rgba(27,67,50,0.08);
+    border:1px solid rgba(27,67,50,0.35);
+  }
+  .live-timer-btn.start:hover{background:rgba(27,67,50,0.16);}
+  .live-timer-btn.start:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+  }
+  .live-timer-btn.stop{
+    color:#fff;
+    background:var(--red-stamp);
+    border:1px solid var(--red-stamp);
+  }
+  .live-timer-btn.stop:hover{opacity:.88;}
+  .live-timer{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(140,47,39,0.06);
+    border:1px solid rgba(140,47,39,0.3);
+    border-radius:20px;
+    padding:3px 6px 3px 12px;
+  }
+  .live-timer-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--red-stamp);
+    animation:live-timer-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes live-timer-pulse{
+    0%, 100%{opacity:1;}
+    50%{opacity:.25;}
+  }
+  .live-timer-display{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    font-weight:600;
+    color:var(--red-stamp);
+    min-width:64px;
+  }
   .time-info{
     font-family:'IBM Plex Mono', monospace;
     font-size:11.5px;
@@ -1116,6 +1167,7 @@ const DEFAULT_DATA = [
 const STORAGE_KEY = "rioverde-edital-progress";
 const DATA_STORAGE_KEY = "rioverde-edital-conteudo";
 const TIME_STORAGE_KEY = "rioverde-edital-tempo-materia";
+const TIMER_STORAGE_KEY = "rioverde-edital-cronometro-ativo";
 const CE_GROUP = "Conhecimentos Específicos";
 let checked = {};
 let sectionTime = {};
@@ -1123,6 +1175,8 @@ let DATA = [];
 let editMode = false;
 let currentTab = null;
 let currentGroup = null;
+let activeTimer = null; // { sectionId, startedAt } enquanto o cronômetro está rodando
+let activeTimerInterval = null;
 
 function getGroups(){
   const seen = [];
@@ -1189,6 +1243,74 @@ function saveSectionTime(){
   try{
     localStorage.setItem(TIME_STORAGE_KEY, JSON.stringify(sectionTime));
   }catch(e){ console.error("Falha ao salvar tempo de estudo", e); }
+}
+
+/* ===== Cronômetro ao vivo (inicia/para, soma automaticamente ao tempo da matéria) ===== */
+function loadActiveTimer(){
+  try{
+    const raw = JSON.parse(localStorage.getItem(TIMER_STORAGE_KEY) || "null");
+    if(raw && raw.sectionId && raw.startedAt){
+      activeTimer = raw;
+    }
+  }catch(e){ activeTimer = null; }
+}
+
+function saveActiveTimer(){
+  try{
+    if(activeTimer) localStorage.setItem(TIMER_STORAGE_KEY, JSON.stringify(activeTimer));
+    else localStorage.removeItem(TIMER_STORAGE_KEY);
+  }catch(e){ console.error("Falha ao salvar cronômetro ativo", e); }
+}
+
+function formatHMS(totalSeconds){
+  totalSeconds = Math.max(0, Math.floor(totalSeconds));
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  return [h, m, s].map(v => String(v).padStart(2, "0")).join(":");
+}
+
+function startSectionTimer(sectionId){
+  // se já existir um cronômetro rodando em outra matéria, finaliza e salva ele antes
+  if(activeTimer && activeTimer.sectionId !== sectionId){
+    stopSectionTimer(activeTimer.sectionId, { silent: true });
+  }
+  if(activeTimer && activeTimer.sectionId === sectionId) return;
+  activeTimer = { sectionId: sectionId, startedAt: Date.now() };
+  saveActiveTimer();
+  render();
+  runActiveTimerTick();
+}
+
+function stopSectionTimer(sectionId, opts){
+  opts = opts || {};
+  if(!activeTimer || activeTimer.sectionId !== sectionId) return;
+  const elapsedMs = Date.now() - activeTimer.startedAt;
+  const minutes = elapsedMs / 60000;
+  clearInterval(activeTimerInterval);
+  activeTimerInterval = null;
+  activeTimer = null;
+  saveActiveTimer();
+  if(minutes * 60 >= 5){ // ignora paradas com menos de 5 segundos
+    addSectionTimeLog(sectionId, minutes);
+  } else if(!opts.silent){
+    render();
+  }
+}
+
+function runActiveTimerTick(){
+  clearInterval(activeTimerInterval);
+  if(!activeTimer) return;
+  const tick = () => {
+    if(!activeTimer) { clearInterval(activeTimerInterval); return; }
+    const el = document.getElementById("timer-display-" + activeTimer.sectionId);
+    if(el){
+      const elapsedSeconds = (Date.now() - activeTimer.startedAt) / 1000;
+      el.textContent = formatHMS(elapsedSeconds);
+    }
+  };
+  tick();
+  activeTimerInterval = setInterval(tick, 1000);
 }
 
 function rebuildAll(){
@@ -1712,7 +1834,7 @@ function renderDashboard(){
 function switchTab(id){
   currentTab = id;
   document.querySelectorAll(".sub-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.target === "panel-" + id));
-  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.id === "panel-" + id));
+  document.querySelectorAll("#panels .panel").forEach(p => p.classList.toggle("active", p.id === "panel-" + id));
 }
 
 function switchView(view){
@@ -1804,20 +1926,58 @@ function render(){
       const st = sectionTime[section.id];
       const totalMin = (st && st.totalMinutes) || 0;
       sectionTimeRow.innerHTML = "";
-      const label = document.createElement("span");
-      label.className = "section-time-label";
-      label.textContent = "tempo estudado nesta matéria:";
-      sectionTimeRow.appendChild(label);
-      const btn = document.createElement("button");
-      btn.className = "time-btn";
-      btn.textContent = "⏱ registrar tempo";
-      btn.onclick = (ev) => { ev.stopPropagation(); openSectionTimeForm(section.id, sectionTimeRow); };
-      sectionTimeRow.appendChild(btn);
-      if(totalMin > 0){
-        const info = document.createElement("span");
-        info.className = "time-info";
-        info.textContent = "⏱ " + formatMinutes(totalMin) + " no total";
-        sectionTimeRow.appendChild(info);
+
+      const isRunningHere = activeTimer && activeTimer.sectionId === section.id;
+
+      if(isRunningHere){
+        const timerWrap = document.createElement("div");
+        timerWrap.className = "live-timer running";
+
+        const dot = document.createElement("span");
+        dot.className = "live-timer-dot";
+        timerWrap.appendChild(dot);
+
+        const display = document.createElement("span");
+        display.className = "live-timer-display";
+        display.id = "timer-display-" + section.id;
+        display.textContent = formatHMS((Date.now() - activeTimer.startedAt) / 1000);
+        timerWrap.appendChild(display);
+
+        const stopBtn = document.createElement("button");
+        stopBtn.className = "live-timer-btn stop";
+        stopBtn.type = "button";
+        stopBtn.textContent = "⏹ parar";
+        stopBtn.onclick = (ev) => { ev.stopPropagation(); stopSectionTimer(section.id); };
+        timerWrap.appendChild(stopBtn);
+
+        sectionTimeRow.appendChild(timerWrap);
+      } else {
+        const label = document.createElement("span");
+        label.className = "section-time-label";
+        label.textContent = "tempo estudado nesta matéria:";
+        sectionTimeRow.appendChild(label);
+
+        const startBtn = document.createElement("button");
+        startBtn.className = "live-timer-btn start";
+        startBtn.type = "button";
+        startBtn.textContent = "▶ cronômetro";
+        startBtn.disabled = !!(activeTimer && activeTimer.sectionId !== section.id);
+        startBtn.title = startBtn.disabled ? "Já há um cronômetro rodando em outra matéria" : "";
+        startBtn.onclick = (ev) => { ev.stopPropagation(); startSectionTimer(section.id); };
+        sectionTimeRow.appendChild(startBtn);
+
+        const btn = document.createElement("button");
+        btn.className = "time-btn";
+        btn.textContent = "⏱ registrar tempo";
+        btn.onclick = (ev) => { ev.stopPropagation(); openSectionTimeForm(section.id, sectionTimeRow); };
+        sectionTimeRow.appendChild(btn);
+
+        if(totalMin > 0){
+          const info = document.createElement("span");
+          info.className = "time-info";
+          info.textContent = "⏱ " + formatMinutes(totalMin) + " no total";
+          sectionTimeRow.appendChild(info);
+        }
       }
     }
 
@@ -1923,7 +2083,9 @@ async function handleImportFile(ev){
   buildDashboard();
   await loadProgress();
   loadSectionTime();
+  loadActiveTimer();
   render();
+  if(activeTimer) runActiveTimerTick();
 })();
 </script>
 
