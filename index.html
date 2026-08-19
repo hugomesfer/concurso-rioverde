@@ -432,6 +432,58 @@
   }
   .io-btn:hover{background:rgba(27,67,50,0.08);}
 
+  /* ===== Modal de exportar backup (fallback para apps sem suporte a download) ===== */
+  .export-modal-backdrop{
+    position:fixed;
+    inset:0;
+    z-index:600;
+    background:rgba(10,14,23,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    box-sizing:border-box;
+  }
+  .export-modal{
+    background:#fff;
+    border-radius:8px;
+    max-width:520px;
+    width:100%;
+    max-height:82vh;
+    display:flex;
+    flex-direction:column;
+    padding:18px;
+    box-sizing:border-box;
+  }
+  .export-modal h3{
+    font-family:'PT Serif', serif;
+    font-size:16px;
+    color:var(--green-dark);
+    margin:0 0 8px;
+  }
+  .export-modal p{
+    font-size:12.5px;
+    color:var(--muted);
+    margin:0 0 10px;
+  }
+  .export-modal textarea{
+    flex:1;
+    min-height:180px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    padding:10px;
+    border:1px solid rgba(27,67,50,0.3);
+    border-radius:6px;
+    resize:vertical;
+    color:var(--ink);
+  }
+  .export-modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:12px;
+  }
+
   /* ===== Registro de tempo por matéria (como um todo) ===== */
   .section-time-row{
     display:flex;
@@ -522,6 +574,138 @@
     color:var(--red-stamp);
     min-width:64px;
   }
+  /* ===== Cronômetro em tela cheia ===== */
+  .timer-fullscreen{
+    position:fixed;
+    inset:0;
+    z-index:500;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:linear-gradient(180deg, #0a0e17 0%, #101a2e 55%, #1b3a63 100%);
+    color:#fff;
+    padding:18px 20px 34px;
+    box-sizing:border-box;
+  }
+  .timer-fs-top{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    padding:8px 0 30px;
+  }
+  .timer-fs-minimize{
+    position:absolute;
+    left:0;
+    top:2px;
+    background:none;
+    border:none;
+    color:#fff;
+    font-size:22px;
+    line-height:1;
+    cursor:pointer;
+    padding:6px 10px;
+    opacity:.9;
+  }
+  .timer-fs-minimize:hover{opacity:1;}
+  .timer-fs-title{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:.04em;
+    color:rgba(255,255,255,0.75);
+  }
+  .timer-fs-label{
+    font-family:'PT Serif', serif;
+    font-size:24px;
+    font-weight:700;
+    text-align:center;
+    margin:6px 0 60px;
+    padding:0 12px;
+  }
+  .timer-fs-circle{
+    width:230px;
+    height:230px;
+    border-radius:50%;
+    border:5px solid rgba(255,255,255,0.55);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin:auto 0 40px;
+    cursor:pointer;
+    background:rgba(255,255,255,0.02);
+  }
+  .timer-fs-circle:hover{border-color:rgba(255,255,255,0.8);}
+  .timer-fs-stop-icon{
+    width:34px;
+    height:34px;
+    border-radius:5px;
+    background:#fff;
+  }
+  .timer-fs-time{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:.02em;
+  }
+  .timer-fs-register-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14px;
+    font-weight:600;
+    color:#fff;
+    background:none;
+    border:1.5px solid rgba(255,255,255,0.8);
+    border-radius:24px;
+    padding:12px 34px;
+    cursor:pointer;
+    margin-bottom:10px;
+  }
+  .timer-fs-register-btn:hover{background:rgba(255,255,255,0.1);}
+  .timer-fs-hint{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:rgba(255,255,255,0.5);
+    margin-top:4px;
+  }
+
+  .mini-timer-bar{
+    position:fixed;
+    left:50%;
+    bottom:18px;
+    transform:translateX(-50%);
+    z-index:400;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:#101a2e;
+    color:#fff;
+    border-radius:30px;
+    padding:9px 16px 9px 12px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.28);
+    cursor:pointer;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .mini-timer-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--red-stamp);
+    animation:live-timer-pulse 1.2s ease-in-out infinite;
+  }
+  .mini-timer-label{
+    font-size:12px;
+    max-width:150px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .mini-timer-time{
+    font-size:13px;
+    font-weight:700;
+  }
+
   .time-info{
     font-family:'IBM Plex Mono', monospace;
     font-size:11.5px;
@@ -738,6 +922,72 @@
     color:var(--gold);
     white-space:nowrap;
   }
+  .log-edit-btn{
+    flex:0 0 auto;
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-size:13px;
+    line-height:1;
+    color:var(--muted);
+    padding:4px 6px;
+    border-radius:4px;
+  }
+  .log-edit-btn:hover{color:var(--green-dark); background:rgba(27,67,50,0.08);}
+  ul.top-topics-list li.editing{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .log-edit-row{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    width:100%;
+  }
+  .log-edit-fields{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .log-date-input, .log-time-input{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    padding:4px 6px;
+    border:1px solid rgba(27,67,50,0.35);
+    border-radius:4px;
+    background:#fff;
+    color:var(--ink);
+  }
+  .log-date-input{width:132px;}
+  .log-time-input{width:88px;}
+  .log-delete-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:#a33;
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-decoration:underline;
+    margin-left:auto;
+  }
+  .dash-top-more{
+    display:flex;
+    justify-content:center;
+    margin-top:14px;
+  }
+  .dash-top-more-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    font-weight:600;
+    color:var(--green);
+    background:#fff;
+    border:1px solid rgba(27,67,50,0.3);
+    border-radius:16px;
+    padding:6px 16px;
+    cursor:pointer;
+  }
+  .dash-top-more-btn:hover{background:rgba(27,67,50,0.08);}
 
   @media (max-width:600px){
     .panel{padding:20px 16px 16px;}
@@ -1280,6 +1530,7 @@ function startSectionTimer(sectionId){
   saveActiveTimer();
   render();
   runActiveTimerTick();
+  openTimerFullscreen();
 }
 
 function stopSectionTimer(sectionId, opts){
@@ -1291,6 +1542,7 @@ function stopSectionTimer(sectionId, opts){
   activeTimerInterval = null;
   activeTimer = null;
   saveActiveTimer();
+  closeTimerFullscreen(true);
   if(minutes * 60 >= 5){ // ignora paradas com menos de 5 segundos
     addSectionTimeLog(sectionId, minutes);
   } else if(!opts.silent){
@@ -1303,14 +1555,132 @@ function runActiveTimerTick(){
   if(!activeTimer) return;
   const tick = () => {
     if(!activeTimer) { clearInterval(activeTimerInterval); return; }
+    const elapsedSeconds = (Date.now() - activeTimer.startedAt) / 1000;
+    const formatted = formatHMS(elapsedSeconds);
     const el = document.getElementById("timer-display-" + activeTimer.sectionId);
-    if(el){
-      const elapsedSeconds = (Date.now() - activeTimer.startedAt) / 1000;
-      el.textContent = formatHMS(elapsedSeconds);
-    }
+    if(el) el.textContent = formatted;
+    const fsTime = document.getElementById("timer-fs-time");
+    if(fsTime) fsTime.textContent = formatted;
+    const miniTime = document.getElementById("mini-timer-time");
+    if(miniTime) miniTime.textContent = formatted;
   };
   tick();
   activeTimerInterval = setInterval(tick, 1000);
+}
+
+/* ===== Cronômetro em tela cheia ===== */
+function openTimerFullscreen(){
+  if(!activeTimer) return;
+  removeMiniTimerBar();
+  let overlay = document.getElementById("timer-fullscreen");
+  if(overlay) overlay.remove();
+
+  const section = DATA.find(s => s.id === activeTimer.sectionId);
+  const label = section ? section.label : "Estudo";
+
+  overlay = document.createElement("div");
+  overlay.className = "timer-fullscreen";
+  overlay.id = "timer-fullscreen";
+
+  const top = document.createElement("div");
+  top.className = "timer-fs-top";
+
+  const minBtn = document.createElement("button");
+  minBtn.type = "button";
+  minBtn.className = "timer-fs-minimize";
+  minBtn.textContent = "⌄";
+  minBtn.title = "minimizar";
+  minBtn.onclick = () => closeTimerFullscreen(false);
+  top.appendChild(minBtn);
+
+  const title = document.createElement("span");
+  title.className = "timer-fs-title";
+  title.textContent = "Cronômetro";
+  top.appendChild(title);
+
+  overlay.appendChild(top);
+
+  const labelEl = document.createElement("div");
+  labelEl.className = "timer-fs-label";
+  labelEl.textContent = label;
+  overlay.appendChild(labelEl);
+
+  const circle = document.createElement("div");
+  circle.className = "timer-fs-circle";
+  circle.title = "parar e registrar";
+
+  const stopIcon = document.createElement("div");
+  stopIcon.className = "timer-fs-stop-icon";
+  circle.appendChild(stopIcon);
+
+  const timeEl = document.createElement("div");
+  timeEl.className = "timer-fs-time";
+  timeEl.id = "timer-fs-time";
+  const elapsedSeconds = (Date.now() - activeTimer.startedAt) / 1000;
+  timeEl.textContent = formatHMS(elapsedSeconds);
+  circle.appendChild(timeEl);
+
+  circle.onclick = () => stopSectionTimer(activeTimer.sectionId);
+  overlay.appendChild(circle);
+
+  const registerBtn = document.createElement("button");
+  registerBtn.type = "button";
+  registerBtn.className = "timer-fs-register-btn";
+  registerBtn.textContent = "Parar e Registrar Estudo";
+  registerBtn.onclick = () => stopSectionTimer(activeTimer.sectionId);
+  overlay.appendChild(registerBtn);
+
+  const hint = document.createElement("div");
+  hint.className = "timer-fs-hint";
+  hint.textContent = "toque em ⌄ para minimizar sem parar";
+  overlay.appendChild(hint);
+
+  document.body.appendChild(overlay);
+}
+
+function closeTimerFullscreen(fullyStop){
+  const overlay = document.getElementById("timer-fullscreen");
+  if(overlay) overlay.remove();
+  if(!fullyStop && activeTimer){
+    showMiniTimerBar();
+  } else {
+    removeMiniTimerBar();
+  }
+}
+
+function showMiniTimerBar(){
+  if(!activeTimer) return;
+  removeMiniTimerBar();
+  const section = DATA.find(s => s.id === activeTimer.sectionId);
+  const label = section ? section.label : "Estudo";
+
+  const bar = document.createElement("div");
+  bar.className = "mini-timer-bar";
+  bar.id = "mini-timer-bar";
+  bar.onclick = () => openTimerFullscreen();
+
+  const dot = document.createElement("span");
+  dot.className = "mini-timer-dot";
+  bar.appendChild(dot);
+
+  const labelEl = document.createElement("span");
+  labelEl.className = "mini-timer-label";
+  labelEl.textContent = label;
+  bar.appendChild(labelEl);
+
+  const timeEl = document.createElement("span");
+  timeEl.className = "mini-timer-time";
+  timeEl.id = "mini-timer-time";
+  const elapsedSeconds = (Date.now() - activeTimer.startedAt) / 1000;
+  timeEl.textContent = formatHMS(elapsedSeconds);
+  bar.appendChild(timeEl);
+
+  document.body.appendChild(bar);
+}
+
+function removeMiniTimerBar(){
+  const bar = document.getElementById("mini-timer-bar");
+  if(bar) bar.remove();
 }
 
 function rebuildAll(){
@@ -1676,6 +2046,17 @@ function formatMinutes(min){
   return m + "m";
 }
 
+function nowTimeHM(){
+  const d = new Date();
+  return String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+}
+
+let logIdCounter = 0;
+function genLogId(){
+  logIdCounter++;
+  return "log-" + Date.now().toString(36) + "-" + logIdCounter + "-" + Math.random().toString(36).slice(2,6);
+}
+
 /* ===== Registro de tempo de estudo (por matéria como um todo) ===== */
 function openSectionTimeForm(sectionId, container){
   container.innerHTML = "";
@@ -1732,10 +2113,35 @@ function addSectionTimeLog(sectionId, minutes){
   const cur = sectionTime[sectionId] || { totalMinutes: 0, log: [] };
   cur.totalMinutes = (cur.totalMinutes || 0) + minutes;
   cur.log = cur.log || [];
-  cur.log.push({ date: todayISO(), minutes: minutes });
+  cur.log.push({ id: genLogId(), date: todayISO(), time: nowTimeHM(), minutes: minutes });
   sectionTime[sectionId] = cur;
   render();
   saveSectionTime();
+}
+
+/* ===== Edição/exclusão de registros de tempo já salvos ===== */
+function saveLogEdit(sectionId, logId, newDate, newTime, newMinutes){
+  const st = sectionTime[sectionId];
+  if(!st || !st.log) return;
+  const entry = st.log.find(e => e.id === logId);
+  if(!entry) return;
+  entry.date = newDate || entry.date;
+  entry.time = newTime || "";
+  entry.minutes = newMinutes > 0 ? newMinutes : entry.minutes;
+  st.totalMinutes = st.log.reduce((sum, e) => sum + (e.minutes || 0), 0);
+  saveSectionTime();
+  renderDashboard();
+  render();
+}
+
+function deleteLogEntry(sectionId, logId){
+  const st = sectionTime[sectionId];
+  if(!st || !st.log) return;
+  st.log = st.log.filter(e => e.id !== logId);
+  st.totalMinutes = st.log.reduce((sum, e) => sum + (e.minutes || 0), 0);
+  saveSectionTime();
+  renderDashboard();
+  render();
 }
 
 /* ===== Dashboard de histórico ===== */
@@ -1744,6 +2150,7 @@ function gatherStudyStats(){
   const bySection = {};
   const byDay = {};
   const recentLog = [];
+  let idsAssigned = false;
 
   DATA.forEach(section => {
     if(section.kind === "dashboard") return;
@@ -1755,11 +2162,14 @@ function gatherStudyStats(){
     }
     if(st && st.log && st.log.length){
       st.log.forEach(entry => {
+        if(!entry.id){ entry.id = genLogId(); idsAssigned = true; }
         byDay[entry.date] = (byDay[entry.date] || 0) + entry.minutes;
-        recentLog.push({ date: entry.date, minutes: entry.minutes, label: section.label });
+        recentLog.push({ sectionId: section.id, id: entry.id, date: entry.date, time: entry.time || "", minutes: entry.minutes, label: section.label });
       });
     }
   });
+
+  if(idsAssigned) saveSectionTime();
 
   return { totalMinutes, bySection, byDay, recentLog };
 }
@@ -1786,6 +2196,9 @@ function buildVBarChart(arr){
   ).join("") + '</div>';
 }
 
+const LOG_PAGE_SIZE = 10;
+let logVisibleCount = LOG_PAGE_SIZE;
+
 function renderDashboard(){
   const panel = document.getElementById("panel-dashboard");
   if(!panel) return;
@@ -1794,11 +2207,9 @@ function renderDashboard(){
   const statsEl = document.getElementById("dash-stats");
   if(statsEl){
     const daysWithLog = Object.keys(stats.byDay).length;
-    const materiasComTempo = Object.keys(stats.bySection).length;
     statsEl.innerHTML =
       '<div class="stat-card"><div class="stat-value">' + formatMinutes(stats.totalMinutes) + '</div><div class="stat-label">tempo total estudado</div></div>' +
-      '<div class="stat-card"><div class="stat-value">' + daysWithLog + '</div><div class="stat-label">dias com registro</div></div>' +
-      '<div class="stat-card"><div class="stat-value">' + materiasComTempo + '</div><div class="stat-label">matérias com tempo</div></div>';
+      '<div class="stat-card"><div class="stat-value">' + daysWithLog + '</div><div class="stat-label">dias com registro</div></div>';
   }
 
   const materiaEl = document.getElementById("dash-materia-chart");
@@ -1820,15 +2231,138 @@ function renderDashboard(){
   }
 
   const topEl = document.getElementById("dash-top-list");
+  const moreEl = document.getElementById("dash-top-more");
   if(topEl){
-    const recent = stats.recentLog.slice().sort((a, b) => b.date < a.date ? -1 : b.date > a.date ? 1 : 0).slice(0, 10);
-    topEl.innerHTML = recent.length
-      ? recent.map(r =>
-          '<li><span class="top-topic-text">' + r.label + '<span class="top-topic-section">' + r.date.slice(8,10) + '/' + r.date.slice(5,7) + '/' + r.date.slice(0,4) + '</span></span>' +
-          '<span class="top-topic-time">' + formatMinutes(r.minutes) + '</span></li>'
-        ).join("")
-      : '<li class="dash-empty">Nenhum registro de tempo ainda.</li>';
+    const sortedLog = stats.recentLog.slice().sort((a, b) => {
+      if(a.date !== b.date) return a.date < b.date ? 1 : -1;
+      const at = a.time || "", bt = b.time || "";
+      return at < bt ? 1 : at > bt ? -1 : 0;
+    });
+    const recent = sortedLog.slice(0, logVisibleCount);
+    topEl.innerHTML = "";
+    if(recent.length){
+      recent.forEach(r => topEl.appendChild(buildLogListItem(r)));
+    } else {
+      const empty = document.createElement("li");
+      empty.className = "dash-empty";
+      empty.textContent = "Nenhum registro de tempo ainda.";
+      topEl.appendChild(empty);
+    }
+    if(moreEl){
+      moreEl.innerHTML = "";
+      if(sortedLog.length > recent.length){
+        const moreBtn = document.createElement("button");
+        moreBtn.type = "button";
+        moreBtn.className = "dash-top-more-btn";
+        moreBtn.textContent = "mostrar mais";
+        moreBtn.onclick = () => {
+          logVisibleCount += LOG_PAGE_SIZE;
+          renderDashboard();
+        };
+        moreEl.appendChild(moreBtn);
+      }
+    }
   }
+}
+
+function buildLogListItem(entry){
+  const li = document.createElement("li");
+  li.dataset.logId = entry.id;
+
+  const textWrap = document.createElement("span");
+  textWrap.className = "top-topic-text";
+  textWrap.textContent = entry.label;
+
+  const meta = document.createElement("span");
+  meta.className = "top-topic-section";
+  const dateLabel = entry.date.slice(8,10) + "/" + entry.date.slice(5,7) + "/" + entry.date.slice(0,4);
+  meta.textContent = dateLabel + (entry.time ? " às " + entry.time : "");
+  textWrap.appendChild(meta);
+
+  const timeVal = document.createElement("span");
+  timeVal.className = "top-topic-time";
+  timeVal.textContent = formatMinutes(entry.minutes);
+
+  const editBtn = document.createElement("button");
+  editBtn.type = "button";
+  editBtn.className = "log-edit-btn";
+  editBtn.title = "editar data/hora";
+  editBtn.textContent = "✎";
+  editBtn.onclick = (ev) => { ev.stopPropagation(); openLogEditForm(li, entry); };
+
+  li.appendChild(textWrap);
+  li.appendChild(timeVal);
+  li.appendChild(editBtn);
+  return li;
+}
+
+function openLogEditForm(li, entry){
+  li.classList.add("editing");
+  li.innerHTML = "";
+
+  const row = document.createElement("div");
+  row.className = "log-edit-row";
+
+  const label = document.createElement("span");
+  label.className = "top-topic-text";
+  label.textContent = entry.label;
+  row.appendChild(label);
+
+  const fields = document.createElement("div");
+  fields.className = "log-edit-fields";
+
+  const dateInput = document.createElement("input");
+  dateInput.type = "date";
+  dateInput.className = "log-date-input";
+  dateInput.value = entry.date;
+  dateInput.onclick = (ev) => ev.stopPropagation();
+  fields.appendChild(dateInput);
+
+  const timeInput = document.createElement("input");
+  timeInput.type = "time";
+  timeInput.className = "log-time-input";
+  timeInput.value = entry.time || "";
+  timeInput.onclick = (ev) => ev.stopPropagation();
+  fields.appendChild(timeInput);
+
+  const minInput = document.createElement("input");
+  minInput.type = "number";
+  minInput.min = "1";
+  minInput.className = "time-input";
+  minInput.value = entry.minutes;
+  minInput.onclick = (ev) => ev.stopPropagation();
+  fields.appendChild(minInput);
+
+  const saveBtn = document.createElement("button");
+  saveBtn.type = "button";
+  saveBtn.className = "time-confirm";
+  saveBtn.textContent = "salvar";
+  saveBtn.onclick = (ev) => {
+    ev.stopPropagation();
+    const newMinutes = parseInt(minInput.value, 10);
+    saveLogEdit(entry.sectionId, entry.id, dateInput.value, timeInput.value, newMinutes);
+  };
+  fields.appendChild(saveBtn);
+
+  const cancelBtn = document.createElement("button");
+  cancelBtn.type = "button";
+  cancelBtn.className = "time-cancel";
+  cancelBtn.textContent = "cancelar";
+  cancelBtn.onclick = (ev) => { ev.stopPropagation(); renderDashboard(); };
+  fields.appendChild(cancelBtn);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.type = "button";
+  deleteBtn.className = "log-delete-btn";
+  deleteBtn.textContent = "excluir registro";
+  deleteBtn.onclick = (ev) => {
+    ev.stopPropagation();
+    if(confirm("Excluir este registro de tempo?")) deleteLogEntry(entry.sectionId, entry.id);
+  };
+  fields.appendChild(deleteBtn);
+
+  row.appendChild(fields);
+  li.appendChild(row);
 }
 
 function switchTab(id){
@@ -1839,9 +2373,14 @@ function switchTab(id){
 
 function switchView(view){
   document.getElementById("tabs").style.display = view === "content" ? "flex" : "none";
+  document.getElementById("subtabs").style.display = view === "content" ? "flex" : "none";
   document.getElementById("panels").style.display = view === "content" ? "block" : "none";
   document.getElementById("dashboard-view").style.display = view === "dashboard" ? "block" : "none";
   document.querySelectorAll(".view-btn").forEach(b => b.classList.toggle("active", b.dataset.view === view));
+  if(view === "dashboard"){
+    logVisibleCount = LOG_PAGE_SIZE;
+    renderDashboard();
+  }
 }
 
 function buildDashboard(){
@@ -1884,6 +2423,11 @@ function buildDashboard(){
   topList.className = "top-topics-list";
   topList.id = "dash-top-list";
   panel.appendChild(topList);
+
+  const moreWrap = document.createElement("div");
+  moreWrap.id = "dash-top-more";
+  moreWrap.className = "dash-top-more";
+  panel.appendChild(moreWrap);
 
   wrap.appendChild(panel);
 }
@@ -2018,15 +2562,106 @@ function exportProgress(){
     data: checked,
     time: sectionTime
   };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "progresso-estudo-rioverde-" + todayISO() + ".json";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  const jsonStr = JSON.stringify(payload, null, 2);
+  const filename = "progresso-estudo-rioverde-" + todayISO() + ".json";
+
+  // tenta o compartilhamento nativo primeiro (funciona melhor dentro de apps empacotados / WebView)
+  if(navigator.canShare && typeof File !== "undefined"){
+    try{
+      const file = new File([jsonStr], filename, { type: "application/json" });
+      if(navigator.canShare({ files: [file] })){
+        navigator.share({ files: [file], title: "Backup do progresso de estudo" })
+          .catch(() => showExportFallback(jsonStr, filename));
+        return;
+      }
+    }catch(e){ /* segue para o fallback */ }
+  }
+
+  // fallback: mostra tela com botão de baixar (tenta o download tradicional) e opção de copiar o texto
+  showExportFallback(jsonStr, filename);
+}
+
+function attemptBlobDownload(jsonStr, filename){
+  try{
+    const blob = new Blob([jsonStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    return true;
+  }catch(e){ return false; }
+}
+
+function showExportFallback(jsonStr, filename){
+  const backdrop = document.createElement("div");
+  backdrop.className = "export-modal-backdrop";
+  backdrop.id = "export-modal-backdrop";
+  backdrop.onclick = (ev) => { if(ev.target === backdrop) backdrop.remove(); };
+
+  const modal = document.createElement("div");
+  modal.className = "export-modal";
+
+  const title = document.createElement("h3");
+  title.textContent = "Backup do progresso";
+  modal.appendChild(title);
+
+  const desc = document.createElement("p");
+  desc.textContent = "Toque em \"baixar arquivo\". Se nada acontecer (comum dentro de apps empacotados), copie o texto abaixo e salve num arquivo .json (ex: Notas, Drive, Arquivos).";
+  modal.appendChild(desc);
+
+  const textarea = document.createElement("textarea");
+  textarea.readOnly = true;
+  textarea.value = jsonStr;
+  modal.appendChild(textarea);
+
+  const actions = document.createElement("div");
+  actions.className = "export-modal-actions";
+
+  const downloadBtn = document.createElement("button");
+  downloadBtn.type = "button";
+  downloadBtn.className = "io-btn";
+  downloadBtn.textContent = "baixar arquivo";
+  downloadBtn.onclick = () => attemptBlobDownload(jsonStr, filename);
+  actions.appendChild(downloadBtn);
+
+  const copyBtn = document.createElement("button");
+  copyBtn.type = "button";
+  copyBtn.className = "io-btn";
+  copyBtn.textContent = "copiar texto";
+  copyBtn.onclick = () => {
+    textarea.select();
+    textarea.setSelectionRange(0, textarea.value.length);
+    let copied = false;
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(jsonStr);
+        copied = true;
+      } else {
+        copied = document.execCommand("copy");
+      }
+    }catch(e){ copied = false; }
+    copyBtn.textContent = copied ? "copiado ✓" : "selecione e copie manualmente";
+    setTimeout(() => { copyBtn.textContent = "copiar texto"; }, 2000);
+  };
+  actions.appendChild(copyBtn);
+
+  const closeBtn = document.createElement("button");
+  closeBtn.type = "button";
+  closeBtn.className = "io-btn";
+  closeBtn.textContent = "fechar";
+  closeBtn.onclick = () => backdrop.remove();
+  actions.appendChild(closeBtn);
+
+  modal.appendChild(actions);
+  backdrop.appendChild(modal);
+  document.body.appendChild(backdrop);
+
+  textarea.focus();
+  textarea.select();
 }
 
 function triggerImport(){
@@ -2085,7 +2720,7 @@ async function handleImportFile(ev){
   loadSectionTime();
   loadActiveTimer();
   render();
-  if(activeTimer) runActiveTimerTick();
+  if(activeTimer){ runActiveTimerTick(); showMiniTimerBar(); }
 })();
 </script>
 
